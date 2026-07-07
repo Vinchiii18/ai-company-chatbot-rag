@@ -1,17 +1,17 @@
 from fastapi import FastAPI
 
-app = FastAPI()
+from app.api.routes import router
+
+app = FastAPI(
+    title="Company Knowledge Chatbot API",
+    version="1.0.0"
+)
+
+app.include_router(router, prefix="/api")
 
 
 @app.get("/")
 def home():
     return {
-        "message": "Welcome to Company Chatbot RAG!"
+        "message": "Company Knowledge Chatbot API"
     }
-
-@app.get("/health")
-def health():
-    return {
-        "status": "healthy"
-    }
-
