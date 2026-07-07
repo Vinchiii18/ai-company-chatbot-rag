@@ -1,5 +1,7 @@
 import numpy as np
 
+from app.models.document_chunk import DocumentChunk
+
 
 class SearchService:
     """Simple semantic search using cosine similarity."""
@@ -20,20 +22,22 @@ class SearchService:
     def search(
         self,
         question_embedding: list[float],
-        chunk_embeddings: list[tuple[str, list[float]]],
+        chunks: list[DocumentChunk],
         top_k: int = 3
     ):
 
         scores = []
 
-        for chunk, embedding in chunk_embeddings:
+        for chunk in chunks:
 
             similarity = self.cosine_similarity(
                 question_embedding,
-                embedding
+                chunk.embedding
             )
 
-            scores.append((chunk, similarity))
+            scores.append(
+                (chunk, similarity)
+            )
 
         scores.sort(
             key=lambda x: x[1],
